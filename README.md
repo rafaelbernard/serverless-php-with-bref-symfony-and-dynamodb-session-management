@@ -918,7 +918,7 @@ Whether you're building a content management system, an internal admin panel, or
 
 ## Source Code
 
-The complete source code for this application is available at: [blog--blog-bref-story-symfony-csrf-lambdaur](https://github.com/yourusername/blog-bref-story-symfony-csrf-lambdaur)
+The complete source code for this application is available at: [rafaelbernard/serverless-php-with-bref-symfony-and-dynamodb-session-management](https://github.com/rafaelbernard/serverless-php-with-bref-symfony-and-dynamodb-session-management)
 
 For detailed technical implementation notes, test coverage reports, and deployment validation, see [`IMPLEMENTATION_SUMMARY.md`](./IMPLEMENTATION_SUMMARY.md) in the repository. This document covers:
 - Complete test suite (112 tests across PHP and CDK)
