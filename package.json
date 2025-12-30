@@ -1,0 +1,46 @@
+{
+  "name": "rba-symfony-app",
+  "version": "0.1.0",
+  "bin": {
+    "rba-symfony-app": "bin/rba-symfony-app.js"
+  },
+  "scripts": {
+    "clean": "rimraf cdk.out lib",
+    "deploy": "npm run deploy:sandbox:full",
+    "deploy:sandbox:hotswap": "npm run clean && npm run package:sandbox && NODE_ENV=sandbox cdk deploy --hotswap --require-approval never",
+    "deploy:sandbox:full": "npm run clean && npm run package:sandbox && NODE_ENV=sandbox cdk deploy --require-approval never",
+    "deploy:prod": "npm run clean && npm run package && NODE_ENV=prod cdk deploy",
+    "postdeploy": "cd php && composer install",
+    "destroy": "npm run clean && cdk destroy '*'",
+    "destroy:sandbox": "npm run clean && NODE_ENV=sandbox cdk destroy --all",
+    "diff": "npm run clean && cdk diff",
+    "test": "jest --coverage --runInBand --silent",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "package:sandbox": "cd php && npm run build && composer install --classmap-authoritative && bin/console cache:clear --env=prod && bin/console cache:warmup --env=prod && sleep 1",
+    "package": "cd php && npm run build && composer install --classmap-authoritative --no-dev && bin/console cache:clear --env=prod && bin/console cache:warmup --env=prod && sleep 1"
+  },
+  "devDependencies": {
+    "@types/config": "^3.3.5",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24",
+    "@typescript-eslint/eslint-plugin": "^8",
+    "aws-cdk": "2.1028.0",
+    "aws-cdk-lib": "2.214.0",
+    "bump-cdk": "^0.1.8",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-prettier": "^5",
+    "jest": "^30.2.0",
+    "prettier": "^3",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@bref.sh/constructs": "^1",
+    "config": "^4.0.0",
+    "constructs": "^10.0.0"
+  }
+}

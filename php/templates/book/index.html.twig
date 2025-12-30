@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Books</h1>
+    
+    <a href="{{ path('book_new') }}" class="btn btn-primary mb-3">Add New Book</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>
+                        <a href="{{ path('book_show', {id: book.id}) }}" class="btn btn-sm btn-info">View</a>
+                        <form method="post" action="{{ path('book_delete', {id: book.id}) }}" style="display: inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('book_delete') }}">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No books found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

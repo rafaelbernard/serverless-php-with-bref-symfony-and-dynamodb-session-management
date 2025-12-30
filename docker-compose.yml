@@ -1,0 +1,15 @@
+services:
+  app:
+    build:
+      context: .
+    ports: [ '8000:8000' ]
+    volumes:
+      - .:/app
+    environment:
+      HANDLER: public/index.php
+      # Assets will be served from this directory
+      DOCUMENT_ROOT: public
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_SESSION_TOKEN: $AWS_SESSION_TOKEN
+

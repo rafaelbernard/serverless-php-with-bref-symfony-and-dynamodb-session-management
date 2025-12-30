@@ -1,0 +1,23 @@
+{
+  "cdk": {
+    "environment": "prod",
+    "spanSearchDays": "5",
+    "spanMaxSearchDays": "60",
+    "spanSchedulerRules": [
+      { "hour": 1, "createFrom": "20 days"},
+      { "hour": 2, "createFrom": "22 days"},
+      { "hour": 3, "createFrom": "24 days"},
+      { "hour": 4, "createFrom": "26 days"},
+      { "hour": 5, "createFrom": "28 days"},
+      { "hour": 6, "createFrom": "30 days"},
+      { "hour": 7, "createFrom": "32 days"},
+      { "hour": 8, "createFrom": "34 days"},
+      { "hour": 9, "createFrom": "36 days"}
+    ],
+    "amadeus" : {
+      "host": "https://api.amadeus.com",
+      "apiKey": "hjlmoMpFhnZEAj5z9Ygj0lkDO5Ei5KY8"
+    },
+    "flightFareDataRetentionDays": "15"
+  }
+}

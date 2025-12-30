@@ -1,0 +1,12 @@
+{
+  "cdk": {
+    "customDomain": "dev.testscores.naviance.com",
+    "enableAlarms": true,
+    "environment": "dev",
+    "eventBusName": "ss-testscores-bus-dev",
+    "platform": {
+      "principal": "701991169879"
+    },
+    "useWaf": true
+  }
+}

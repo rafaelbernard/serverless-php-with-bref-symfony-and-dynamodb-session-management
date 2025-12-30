@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Book{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Add New Book</h1>
+    
+    <form method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('book_new') }}">
+        
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <select class="form-control" id="author" name="author" required>
+                <option value="">Select an author</option>
+                {% for author in authors %}
+                    <option value="{{ author.name }}">{{ author.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{{ path('book_index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

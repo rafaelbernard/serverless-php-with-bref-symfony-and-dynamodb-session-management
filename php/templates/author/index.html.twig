@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authors{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Authors</h1>
+    
+    <a href="{{ path('author_new') }}" class="btn btn-primary mb-3">Add New Author</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                    <tr>
+                        <td>{{ author.name }}</td>
+                        <td>{{ author.createdAt|date('Y-m-d H:i') }}</td>
+                        <td>
+                            <a href="{{ path('author_show', {'id': author.id}) }}" class="btn btn-sm btn-info">View</a>
+                            <form method="post" action="{{ path('author_delete', {'id': author.id}) }}" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('author_delete') }}">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center">No authors found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

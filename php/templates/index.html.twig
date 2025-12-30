@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Authors & Book Count</h5>
+                </div>
+                <div class="card-body">
+                    {% if authorStats is empty %}
+                        <p>No books found.</p>
+                    {% else %}
+                        <ul class="list-group list-group-flush">
+                            {% for author, count in authorStats %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ author }}
+                                    <span class="badge bg-primary rounded-pill">{{ count }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Last 5 Books Added</h5>
+                </div>
+                <div class="card-body">
+                    {% if lastFiveBooks is empty %}
+                        <p>No books found.</p>
+                    {% else %}
+                        <ul class="list-group list-group-flush">
+                            {% for book in lastFiveBooks %}
+                                <li class="list-group-item">
+                                    <strong>{{ book.title }}</strong><br>
+                                    <small class="text-muted">by {{ book.author }} - {{ book.createdAt|date('M d, Y') }}</small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ path('book_index') }}" class="btn btn-primary">Manage Books</a>
+    </div>
+</div>
+{% endblock %}

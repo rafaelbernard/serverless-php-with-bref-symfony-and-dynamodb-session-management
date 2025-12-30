@@ -1,0 +1,8 @@
+{
+  "cdk": {
+    "environment": "sandbox",
+    "hostedZoneId": "F2k3",
+    "zoneName": "yourdomain.com",
+    "appDomainName": "lambdacsrf"
+  }
+}

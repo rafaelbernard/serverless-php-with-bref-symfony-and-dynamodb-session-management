@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ book.title }}</h1>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text"><strong>Author:</strong> {{ book.author }}</p>
+            <p class="card-text"><strong>Created:</strong> {{ book.createdAt|date('Y-m-d H:i') }}</p>
+        </div>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{{ path('book_index') }}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    csrf_protection: true
+    trusted_proxies: '%env(default::TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port']
+
+    # Note that the session will be started ONLY if you read or write from it.
+    session:
+        storage_factory_id: session.storage.factory.native
+        handler_id: App\Session\DynamoDbSessionHandler
+        cookie_secure: auto
+        cookie_httponly: true
+        cookie_samesite: lax
+        cookie_lifetime: 0
+        gc_maxlifetime: 3600
+        name: APPSESSID
+        #cookie_domain: null  # Allow cookies on any domain for serverless
+
+    form:
+        csrf_protection:
+            enabled: true
+
+when@sandbox:
+    framework:
+        assets:
+            base_urls: ['%env(ASSET_URL)%']
+
+when@prod:
+    framework:
+        assets:
+            base_urls: ['%env(ASSET_URL)%']

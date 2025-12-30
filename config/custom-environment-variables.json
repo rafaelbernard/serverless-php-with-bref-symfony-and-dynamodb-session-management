@@ -1,0 +1,14 @@
+{
+  "cdk": {
+    "environment": "ENVIRONMENT",
+    "navDc": {
+      "busName": "NAV_DC_BUS"
+    },
+    "platform": {
+      "principal": "NAV_PLATFORM_PRINCIPAL"
+    }
+  },
+  "requestAuthorizer": {
+    "AuthRoleArn": "AuthRoleArn"
+  }
+}

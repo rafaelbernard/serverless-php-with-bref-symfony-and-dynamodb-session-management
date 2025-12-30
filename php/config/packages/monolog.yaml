@@ -1,0 +1,49 @@
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: php://stderr
+            level: debug
+            formatter: 'Bref\Monolog\CloudWatchFormatter'
+        file:
+            type: stream
+            path: php://stderr
+            level: debug
+            formatter: 'Bref\Monolog\CloudWatchFormatter'
+        deprecation:
+            type: stream
+            channels: [ deprecation ]
+            path: php://stderr
+    channels:
+        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - error # Dedicated channel for errors
+
+when@sandbox:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: php://stderr
+                level: debug
+                formatter: 'Bref\Monolog\CloudWatchFormatter'
+
+when@prod:
+    monolog:
+        handlers:
+            main:
+                type: stream
+                path: php://stderr
+                level: info
+                formatter: 'Bref\Monolog\CloudWatchFormatter'
+                channels: [ "!error", "!deprecation" ]
+            errors:
+                type: stream
+                path: php://stderr
+                level: error
+                formatter: 'Bref\Monolog\CloudWatchFormatter'
+                channels: [ "error" ]
+            deprecation:
+                type: stream
+                channels: [ deprecation ]
+                path: php://stderr
+                formatter: 'Bref\Monolog\CloudWatchFormatter'

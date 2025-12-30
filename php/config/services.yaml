@@ -1,0 +1,73 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    book_table_name: '%env(BOOK_TABLE_NAME)%' # Using the same table for now
+    csrf_token_ttl: 3600 # 3600 seconds = 1 hour
+    session_ttl_seconds: 3600 # default TTL for sessions (used as fallback for SESSION_TTL)
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    Bref\Monolog\CloudWatchFormatter: ~
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            
+    # Configure the error logger service
+    monolog.logger.error:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: ['error']
+        calls:
+            - [pushHandler, ['@monolog.handler.errors']]
+
+    App\Book\Domain\Repository\BookRepositoryInterface:
+        class: App\Book\Infrastructure\Repository\DynamoDbBookRepository
+        arguments:
+            $tableName: '%book_table_name%'
+            $authorRepository: '@App\Author\Domain\Repository\AuthorRepositoryInterface'
+
+    App\Author\Domain\Repository\AuthorRepositoryInterface:
+        class: App\Author\Infrastructure\Repository\DynamoDbAuthorRepository
+        arguments:
+            $tableName: '%book_table_name%'
+
+    App\User\Domain\UserRepositoryInterface:
+        class: App\User\Infrastructure\DynamoDbUserRepository
+        arguments:
+            $tableName: '%book_table_name%'
+
+    App\Security\Csrf\DynamoDbCsrfTokenStorage:
+        arguments:
+            $tableName: '%book_table_name%'
+
+    security.csrf.token_storage:
+        alias: App\Security\Csrf\DynamoDbCsrfTokenStorage
+
+    security.csrf.token_generator:
+        class: Symfony\Component\Security\Csrf\TokenGenerator\UriSafeTokenGenerator
+
+    security.csrf.token_manager:
+        class: Symfony\Component\Security\Csrf\CsrfTokenManager
+        arguments:
+            - '@security.csrf.token_generator'
+            - '@security.csrf.token_storage'
+
+    App\Session\DynamoDbSessionHandler:
+        arguments:
+            $tableName: '%book_table_name%'
+            $ttlSeconds: '%env(default:session_ttl_seconds:int:SESSION_TTL)%'
+
+    session.handler.null:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler

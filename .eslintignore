@@ -1,0 +1,9 @@
+*.d.ts
+
+assets/*
+build
+coverage
+cdk.out
+php/vendor/*
+web/js
+lib
