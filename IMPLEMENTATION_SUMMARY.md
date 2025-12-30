@@ -1,8 +1,25 @@
 # Implementation Summary
 
-**Project**: blog-bref-story-symfony-csrf-lambdaur  
-**Date**: December 11, 2025  
-**Network Mode**: INTEGRATIONS_ONLY (Dockerfile validation skipped)
+```mermaid
+flowchart LR
+U[User / Browser]
+
+    U -->|HTTPS| CF[CloudFront<br/>Optional]
+    CF -->|HTTPS| L[Lambda Function URL<br/>Bref + Symfony]
+    CF -->|HTTPS| S[S3<br/>Static assets]
+
+    L -->|Read / Write| DDB[(DynamoDB<br/>Sessions & CSRF)]
+    L -->|Logs & Metrics| CW[CloudWatch]
+
+    subgraph AWS Lambda
+        L
+        S
+    end
+
+    subgraph Stateful Storage
+        DDB
+    end
+```
 
 ## Overview
 
@@ -320,27 +337,3 @@ No new dependencies required - all tests use existing PHPUnit installation.
 | PHP Tests | Missing components | ✅ 71 new tests | ✅ |
 | Documentation | Complete | ✅ 4 documents | ✅ |
 | Test Coverage | >80% critical paths | ✅ 100% | ✅ |
-
-## Conclusion
-
-All requested tasks have been completed successfully:
-
-✅ **Blog Post**: Comprehensive technical article ready for publication  
-✅ **Cleanup Analysis**: Evidence-based recommendations with 1 unused class identified  
-✅ **CDK Tests**: Complete infrastructure test suite (24 tests)  
-✅ **PHP Tests**: Expanded coverage to 100% for critical components (71 new tests)  
-✅ **Documentation**: 4 comprehensive documents created  
-
-The codebase now has:
-- **112 total tests** across PHP and infrastructure
-- **100% coverage** of critical components
-- **Comprehensive documentation** for the serverless architecture
-- **Clear recommendations** for code cleanup
-
-**Project Status**: ✅ **COMPLETE AND READY FOR REVIEW**
-
----
-
-**Implementation Date**: December 11, 2025  
-**Total Time**: Development session  
-**Quality**: Production-ready
